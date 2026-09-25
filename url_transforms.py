@@ -9,10 +9,30 @@ from url_normalize import url_normalize
 # Regexes are applied to a url in order until one of them matches.
 
 TRANSFORMS = [
-    {
-        'find': r'/d/([0-9a-zA-Z-_]+)/edit.*$',
-        'replace': r'/d/\1/export?format=txt'
-    }
+  { # plain text version of Google Docs
+    'find':    r'/d/([0-9a-zA-Z-_]+)/edit.*$',
+    'replace': r'/d/\1/export?format=txt'
+  },
+  { # plain text version of Etherpads
+    'find':    r'/padm\.us/(\w+).*$',
+    'replace': r'/padm.us/\1/export/txt',
+  },
+  { # Anti-Inception Hack! Intentionally break links to megadoc...
+    'find':    r'^https:\/\/transgreption\.jakecoble\.repl\.co.*$',
+    'replace': r'__ANTI_INCEPTION__',
+  },
+  { # Do that again for the new URL [warning: unDRY]
+    'find':    r'^https:\/\/transgreption\.replit.app.*$',
+    'replace': r'__ANTI_INCEPTION__',
+  },
+  {
+    'find':    r'^https:\/\/transgreption[\w-]*\.onrender\.com.*$',
+    'replace': r'__ANTI_INCEPTION__',
+  },
+{ # Don't want anchor links
+    'find':    r'^\#\w+$',
+    'replace': r'__ANTI_ANCHOR__',
+  }
 ]
 
 
